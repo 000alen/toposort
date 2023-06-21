@@ -6,11 +6,12 @@
  * @returns {Array}
  */
 
-module.exports = function(edges) {
+module.exports = function (edges) {
   return toposort(uniqueNodes(edges), edges)
 }
 
 module.exports.array = toposort
+module.exports.parallel = parallel_toposort
 
 function toposort(nodes, edges) {
   var cursor = nodes.length
@@ -22,7 +23,7 @@ function toposort(nodes, edges) {
     , nodesHash = makeNodesHash(nodes)
 
   // check for unknown nodes
-  edges.forEach(function(edge) {
+  edges.forEach(function (edge) {
     if (!nodesHash.has(edge[0]) || !nodesHash.has(edge[1])) {
       throw new Error('Unknown node. There is an unknown node in the supplied edges.')
     }
@@ -35,18 +36,18 @@ function toposort(nodes, edges) {
   return sorted
 
   function visit(node, i, predecessors) {
-    if(predecessors.has(node)) {
+    if (predecessors.has(node)) {
       var nodeRep
       try {
         nodeRep = ", node was:" + JSON.stringify(node)
-      } catch(e) {
+      } catch (e) {
         nodeRep = ""
       }
       throw new Error('Cyclic dependency' + nodeRep)
     }
 
     if (!nodesHash.has(node)) {
-      throw new Error('Found unknown node. Make sure to provided all involved nodes. Unknown node: '+JSON.stringify(node))
+      throw new Error('Found unknown node. Make sure to provided all involved nodes. Unknown node: ' + JSON.stringify(node))
     }
 
     if (visited[i]) return;
@@ -68,7 +69,43 @@ function toposort(nodes, edges) {
   }
 }
 
-function uniqueNodes(arr){
+// a, b, c, d, e, f
+// d -> b, e -> b, f -> d
+// parallel_toposort: [a, c, b], [d, e], [f]
+function parallel_toposort(nodes, edges) {
+  const nodesHash = makeNodesHash(nodes);
+  edges.forEach((edge) => {
+    if (!nodesHash.has(edge[0]) || !nodesHash.has(edge[1])) {
+      throw new Error('Unknown node. There is an unknown node in the supplied edges.')
+    }
+  })
+
+  const visited = new Set();
+  const sorted = [];
+
+  while (visited.size < nodes.length) {
+    // visit nodes with no dependencies or nodes with all dependencies visited
+    const next = nodes
+      .filter((node) => {
+        if (visited.has(node)) return false;
+
+        const dependencies = edges
+          .filter(([_, to]) => to === node)
+          .map(([from, _]) => from);
+
+        return dependencies.every(visited.has);
+      });
+
+    if (next.length === 0) throw new Error("Circular dependency detected");
+
+    next.forEach(visited.add);
+    sorted.push(next);
+  }
+
+  return sorted;
+}
+
+function uniqueNodes(arr) {
   var res = new Set()
   for (var i = 0, len = arr.length; i < len; i++) {
     var edge = arr[i]
@@ -78,7 +115,7 @@ function uniqueNodes(arr){
   return Array.from(res)
 }
 
-function makeOutgoingEdges(arr){
+function makeOutgoingEdges(arr) {
   var edges = new Map()
   for (var i = 0, len = arr.length; i < len; i++) {
     var edge = arr[i]
@@ -89,7 +126,7 @@ function makeOutgoingEdges(arr){
   return edges
 }
 
-function makeNodesHash(arr){
+function makeNodesHash(arr) {
   var res = new Map()
   for (var i = 0, len = arr.length; i < len; i++) {
     res.set(arr[i], i)
