@@ -93,12 +93,12 @@ function parallel_toposort(nodes, edges) {
           .filter(([_, to]) => to === node)
           .map(([from, _]) => from);
 
-        return dependencies.every(visited.has);
+        return dependencies.every((dependency) => visited.has(dependency));
       });
 
     if (next.length === 0) throw new Error("Circular dependency detected");
 
-    next.forEach(visited.add);
+    next.forEach((node) => visited.add(node));
     sorted.push(next);
   }
 
