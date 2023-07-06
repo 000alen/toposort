@@ -84,8 +84,12 @@ function parallel_toposort(nodes, edges) {
   const nodesHash = makeNodesHash(nodes);
   edges.forEach((edge) => {
     if (!nodesHash.has(edge[0]) || !nodesHash.has(edge[1])) {
+      const missing = new Set(!nodesHash.has(edge[0]) ? edge[0] : edge[1]);
+
       throw new Error(
-        "Unknown node. There is an unknown node in the supplied edges."
+        `Unknown node. There is an unknown node in the supplied edges (${
+          Array.from(missing).join(", ") || "unknown"
+        }).`
       );
     }
   });
