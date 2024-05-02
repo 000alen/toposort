@@ -11,6 +11,9 @@
     "type": "git",
     "url": "https://github.com/000alen/toposort"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "devDependencies": {
     "vows": "0.7.x"
   },
