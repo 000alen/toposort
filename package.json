@@ -1,5 +1,5 @@
 {
-  "name": "toposort",
+  "name": "@000alen/toposort",
   "version": "2.0.2",
   "description": "Topological sort of directed acyclic graphs (like dependency lists)",
   "main": "index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/marcelklehr/toposort.git"
+    "url": "https://github.com/000alen/toposort"
   },
   "devDependencies": {
     "vows": "0.7.x"
