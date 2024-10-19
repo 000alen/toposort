@@ -29,5 +29,6 @@
     "acyclic"
   ],
   "author": "Marcel Klehr <mklehr@gmx.net>",
-  "license": "MIT"
+  "license": "MIT",
+  "packageManager": "yarn@4.5.1"
 }
