@@ -1,6 +1,6 @@
 {
   "name": "@000alen/toposort",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Topological sort of directed acyclic graphs (like dependency lists)",
   "main": "index.js",
   "types": "index.d.ts",
@@ -10,9 +10,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/000alen/toposort"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
     "vows": "0.7.x"
@@ -28,7 +25,7 @@
     "dependencies",
     "acyclic"
   ],
-  "author": "Marcel Klehr <mklehr@gmx.net>",
+  "author": "Alen Rubilar <lclc.alen@gmail.com>",
   "license": "MIT",
   "packageManager": "yarn@4.5.1"
 }
