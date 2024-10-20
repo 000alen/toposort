@@ -1,6 +1,6 @@
 {
   "name": "@000alen/toposort",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Topological sort of directed acyclic graphs (like dependency lists)",
   "main": "index.js",
   "types": "index.d.ts",
